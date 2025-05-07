@@ -1,107 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast (JSON)</title>
-
-    <style>
-        /*
-            STYLES FOR TABLE BORDERS (FEEL FREE TO UPDATE)
-            https://www.w3schools.com/html/html_table_borders.asp
-        */
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Forecast (JSON)</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Weather Forecast (JSON)</h1>
-    <a href="../index.html">Home</a>
+  <h1>Weather Forecast (JSON)</h1>
+  <a href="#">Home</a>
 
-    <h2>Dataset Information</h2>
-    <p>For this exercise, we will use a JSON file called <a href="https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json">"weather-data.json"</a>
-        that has been uploaded to the Internet.
-        The JSON file contains weather forecast data that was originally retrieved from the Weather.gov API.
-    </p>
+  <h2>Dataset Information</h2>
+  <p>This exercise uses embedded JSON data for the weather forecast, originally retrieved from the Weather.gov API.</p>
 
-    <h2>Part 1</h2>
-    <p>
-        Write JavaScript code to answer the questions below.
-        Log each of the answers to the console.
+  <h2>Part 1</h2>
+  <ol type="A">
+    <li>Fetch the weather data using the provided JSON.</li>
+    <li>Display the date this data was generated (i.e. "2021-06-08").</li>
+    <li>Display the number of periods of available data (i.e. 14).</li>
+    <li>Filter the daytime periods only, store in <code>daytimePeriods</code>.</li>
+    <li>Display the number of daytime periods (i.e. 7).</li>
+    <li>For each daytime period, show a readable forecast: name, temperature, and forecast.</li>
+  </ol>
 
-        <ol type="A">
-            <li>Fetch the weather data using the provided URL.</li>
-            <li>Display the date this data was generated (i.e. "2021-06-08").</li>
-            <li>Display the number of periods of available data (i.e. 14).</li>
-            <li>Use a filtering operation to arrive at a subset of the periods that are daytime only (excluding night-time periods),
-                and store them in a variable called <code>daytimePeriods</code>.
-            </li>
-            <li>Display the number of daytime periods (i.e. 7).</li>
-            <li>For each daytime period, display a human-readable weather forecast on that date, including:
-                 the period name, temperature (and temperature unit), and a short or long forecast.
-            </li>
-        </ol>
-    </p>
+  <h2>Part 2</h2>
+  <ol type="A">
+    <li>Display the date the data was generated. Use the <code>span</code> element.</li>
+    <li>Display a 7-day forecast using only daytime periods in a <code>table</code>.</li>
+  </ol>
 
+  <hr>
 
-    <h2>Part 2</h2>
-    <p>
-        Write JavaScript code to answer the questions below.
-        Display the answers on the page in the designated areas.
-    </p>
+  <h2>Display</h2>
+  <p>Date: <span id="display-date">TODO</span></p>
+  <p>Seven Day Forecast:</p>
+  <table id="display-forecast"></table>
 
-    <ol type="A">
-        <li>Display the date this data was generated. Use the designated <code>span</code> element.</li>
-        <li>Display a seven day forecast, using the daytime periods only.
-            Use the designated <code>table</code> element.
-            The table should have four columns ("Period", "Temperature", "Forecast", and "Icon").
-            There should be a row for each daytime period.
-            Include the period name, temperature (and temperature unit), and a short or long forecast.
-            Also display the weather icon as an image.
-        </li>
-    </ol>
+  <script type="text/javascript">
+    const weatherData = {
+      "properties": {
+        "updated": "2021-06-08T17:34:46+00:00",
+        "periods": [
+          { "name": "This Afternoon", "isDaytime": true, "temperature": 91, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms Likely", "icon": "https://api.weather.gov/icons/land/day/tsra_sct,60?size=medium" },
+          { "name": "Tonight", "isDaytime": false, "temperature": 73, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms Likely then Chance Showers And Thunderstorms", "icon": "https://api.weather.gov/icons/land/night/tsra_sct,60/tsra_sct,20?size=medium" },
+          { "name": "Wednesday", "isDaytime": true, "temperature": 90, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms Likely", "icon": "https://api.weather.gov/icons/land/day/tsra_sct,30/tsra_sct,60?size=medium" },
+          { "name": "Wednesday Night", "isDaytime": false, "temperature": 71, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms Likely", "icon": "https://api.weather.gov/icons/land/night/tsra_sct,60/tsra_sct,30?size=medium" },
+          { "name": "Thursday", "isDaytime": true, "temperature": 89, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms", "icon": "https://api.weather.gov/icons/land/day/tsra_hi,60/tsra_hi,80?size=medium" },
+          { "name": "Thursday Night", "isDaytime": false, "temperature": 70, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms", "icon": "https://api.weather.gov/icons/land/night/tsra,80?size=medium" },
+          { "name": "Friday", "isDaytime": true, "temperature": 76, "temperatureUnit": "F", "shortForecast": "Showers And Thunderstorms", "icon": "https://api.weather.gov/icons/land/day/tsra,80?size=medium" },
+          { "name": "Saturday", "isDaytime": true, "temperature": 79, "temperatureUnit": "F", "shortForecast": "Chance Rain Showers", "icon": "https://api.weather.gov/icons/land/day/rain_showers,50/tsra_sct,50?size=medium" },
+          { "name": "Sunday", "isDaytime": true, "temperature": 82, "temperatureUnit": "F", "shortForecast": "Chance Rain Showers", "icon": "https://api.weather.gov/icons/land/day/rain_showers,30/tsra_hi,30?size=medium" },
+          { "name": "Monday", "isDaytime": true, "temperature": 84, "temperatureUnit": "F", "shortForecast": "Slight Chance Rain Showers then Slight Chance Showers And Thunderstorms", "icon": "https://api.weather.gov/icons/land/day/rain_showers/tsra_hi?size=medium" }
+        ]
+      }
+    };
 
-    <hr>
-    <h2>Display</h2>
-    <div id="weather-app">
-        <p>Date: <span id="display-date">TODO</span></p>
+    // PART 1
+    const updatedDate = weatherData.properties.updated;
+    const allPeriods = weatherData.properties.periods;
+    const daytimePeriods = allPeriods.filter(p => p.isDaytime);
+    const degree = "\u00B0";
 
-        <p>Seven Day Forecast:</p>
-        <table id="display-forecast" style="border:1px solid black;">
-        </table>
-    </div>
+    console.log("Date Generated:", updatedDate);
+    console.log("Total Periods:", allPeriods.length);
+    console.log("Daytime Periods:", daytimePeriods.length);
 
+    daytimePeriods.forEach(p => {
+      console.log(`${p.name}: ${p.temperature}${degree}${p.temperatureUnit} - ${p.shortForecast}`);
+    });
 
-    <script type="text/javascript">
+    // PART 2
+    document.getElementById("display-date").textContent = updatedDate.split("T")[0];
+    const table = document.getElementById("display-forecast");
 
-        var degreeSymbol = "\u00B0"
+    const headerRow = document.createElement("tr");
+    ["Period", "Temperature", "Forecast", "Icon"].forEach(col => {
+      const th = document.createElement("th");
+      th.textContent = col;
+      headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
 
-        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json"
+    daytimePeriods.slice(0, 7).forEach(p => {
+      const row = document.createElement("tr");
 
-        fetch(requestUrl).then(response => response.json())
-            .then(function(data){
-                console.log("DATA", data)
+      const td1 = document.createElement("td");
+      td1.textContent = p.name;
+      row.appendChild(td1);
 
+      const td2 = document.createElement("td");
+      td2.textContent = `${p.temperature}${degree}${p.temperatureUnit}`;
+      row.appendChild(td2);
 
-                console.log("---------------------")
-                console.log("PART 1...")
+      const td3 = document.createElement("td");
+      td3.textContent = p.shortForecast;
+      row.appendChild(td3);
 
+      const td4 = document.createElement("td");
+      const img = document.createElement("img");
+      img.src = p.icon;
+      img.alt = "forecast icon";
+      img.style.maxWidth = "50px";
+      td4.appendChild(img);
+      row.appendChild(td4);
 
-
-
-                console.log("---------------------")
-                console.log("PART 2...")
-
-
-
-
-            })
-            .catch(err => console.log(err))
-
-    </script>
+      table.appendChild(row);
+    });
+  </script>
 </body>
 </html>
+
+

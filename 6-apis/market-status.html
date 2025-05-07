@@ -10,8 +10,10 @@
     <a href="../index.html">Home</a>
 
     <h2>Dataset Information</h2>
-    <p>For this exercise, we will use data from the AlphaVantage API.
-        Specifically we will use the <a href="https://www.alphavantage.co/documentation/#market-status">"Market Status" endpoint</a>
+    <p>
+        For this exercise, we will use data from the AlphaVantage API.
+        Specifically we will use the 
+        <a href="https://www.alphavantage.co/documentation/#market-status">"Market Status" endpoint</a>
         to fetch information about the current status of major trading venues around the world.
         Consult the API documentation to learn more.
     </p>
@@ -23,18 +25,16 @@
     <p>
         Write JavaScript code to answer the questions below.
         Log each of the answers to the console.
-
         <ol type="A">
             <li>Fetch market status data from the API.</li>
             <li>Display the number of markets.</li>
-            <li>Filter the markets to identify only those that have a market type of "Equity", and store them in a variable called <code>equityMarkets</code>.</li>
+            <li>Filter to identify only equity markets, store in <code>equityMarkets</code>.</li>
             <li>Display the number of equity markets.</li>
-            <li>Loop through the equity markets and display the market type and region of each.</li>
-            <li>Use a find operation to identify the equity market that has a region of "United States", and store it in a variable called <code>market</code>.</li>
-            <li>Display information about the US market, including: the market type, the primary exchanges, the local open and close time, and the current market status. Format the market status using all capital letters.</li>
+            <li>Loop through equity markets and display type + region.</li>
+            <li>Find the US equity market, store in <code>market</code>.</li>
+            <li>Display US market info (type, exchanges, open/close, status).</li>
         </ol>
     </p>
-
 
     <h2>Part 2</h2>
     <p>
@@ -42,19 +42,8 @@
         Display the answers on the page in the designated areas.
     </p>
 
-    <ol type="A">
-        <li>Using the designated <code>span</code> elements below,
-            display information about the US market, including it's region, market type,
-            primary exchanges, local open and close times, and current status.
-        </li>
-    </ol>
-
     <hr>
     <h2>Display</h2>
-
-    <!--select name="region" id="select-region">
-        <option value="N/A">Select an Equity Market Region</option>
-    </select-->
 
     <div id="display-market-info">
         <p>Region: <span id="display-region">TODO</span></p>
@@ -65,49 +54,62 @@
         <p>Current Status: <span id="display-status">TODO</span></p>
     </div>
 
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script type="text/javascript">
-
-        // AVOID HARD-CODING THE CREDENTIALS
-        // USE SESSION STORAGE TO MINIMIZE THE NUMBER OF TIMES WE HAVE TO PROVIDE THE CREDENTIAL
-        // check session storage for the API Key:
-        var apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY")
+        // Prompt for API key and store in session storage
+        let apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY");
         if (!apiKey) {
-            // if it isn't there, ask the user to supply it:
-            apiKey = prompt("Please enter your AlphaVantage API key:")
-            // store it in the session for later (so it will persist after refreshing the page)
-            sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey)
+            apiKey = prompt("Please enter your AlphaVantage API key:");
+            sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey);
         }
 
+        const requestUrl = `https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=${apiKey}`;
 
-
-
-        var requestUrl = `https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=${apiKey}`
         d3.json(requestUrl).then(function(data) {
-            console.log("RESPONSE:", data)
+            console.log("RESPONSE:", data);
 
-            console.log("---------------------")
-            console.log("PART 1...")
+            console.log("---------------------");
+            console.log("PART 1...");
 
+            const markets = data.markets;
+            console.log("Number of Markets:", markets.length);
 
+            const equityMarkets = markets.filter(m => m.market_type === "Equity");
+            console.log("Number of Equity Markets:", equityMarkets.length);
 
+            equityMarkets.forEach(market => {
+                console.log(`Type: ${market.market_type}, Region: ${market.region}`);
+            });
 
+            const market = equityMarkets.find(m => m.region === "United States");
 
-            console.log("---------------------")
-            console.log("PART 2...")
+            if (market) {
+                console.log("US Market Info:");
+                console.log("Market Type:", market.market_type);
+                const exchangesDisplay = Array.isArray(market.primary_exchanges)
+                    ? market.primary_exchanges.join(", ")
+                    : "N/A";
+                console.log("Primary Exchanges:", exchangesDisplay);
+                console.log("Local Open:", market.local_open);
+                console.log("Local Close:", market.local_close);
+                console.log("Current Status:", (market.current_status || "").toUpperCase());
 
-
-
+                // PART 2 – Show in HTML
+                document.getElementById("display-region").textContent = market.region;
+                document.getElementById("display-type").textContent = market.market_type;
+                document.getElementById("display-exchanges").textContent = exchangesDisplay;
+                document.getElementById("display-open").textContent = market.local_open;
+                document.getElementById("display-close").textContent = market.local_close;
+                document.getElementById("display-status").textContent = (market.current_status || "").toUpperCase();
+            } else {
+                console.warn("United States equity market not found.");
+            }
 
         }).catch(function(error) {
-            console.error("ERROR:", error)
-        })
-
-
-
+            console.error("ERROR:", error);
+        });
     </script>
 </body>
 </html>
+
+

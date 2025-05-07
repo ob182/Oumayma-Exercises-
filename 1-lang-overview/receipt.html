@@ -64,23 +64,70 @@
 
         console.log("---------------------")
         console.log("PART 1...")
-
+      // PART 1: Format a number as USD ($)
+     function formatUSD(price) {
+     return "$" + price.toFixed(2);
+     }
+     let samplePrice = 4.6777;
+     let formattedPrice = formatUSD(samplePrice);
+     console.log("Formatted Price:", formattedPrice);  // "$4.68"
 
 
 
         console.log("---------------------")
         console.log("PART 2...")
+     // PART 2: Format a decimal as percentage (e.g. 0.0875 → "8.75%")
+     function formatPct(percentage) {
+     return (percentage * 100).toFixed(2) + "%";
+     }
 
-
-
+     let samplePercentage = 0.0875;
+     let formattedPercentage = formatPct(samplePercentage);
+     console.log("Formatted Percentage:", formattedPercentage);  // "8.75%"
 
 
         console.log("---------------------")
         console.log("PART 3...")
+     // PART 3: Calculate tax and total
+     let subtotal = 19.41;
+     let taxRate = 0.0875;
+     let tax = subtotal * taxRate;
+     let total = subtotal + tax;
+
+     console.log("Subtotal:", formatUSD(subtotal));       // "$19.41"
+     console.log("Tax Rate:", formatPct(taxRate));        // "8.75%"
+     console.log("Tax Owed:", formatUSD(tax));            // "$1.70"
+     console.log("Total Amount:", formatUSD(total));      // "$21.11"
 
 
+        console.log("---------------------")
+        console.log("PART 4...")
+
+     // PART 4: Create function that returns an object with receipt info
+     function generateReceipt(subtotal, taxRate = 0.0875) {
+     let tax = subtotal * taxRate;
+     let total = subtotal + tax;
+
+     return {
+     subtotal: subtotal,
+     taxRate: taxRate,
+     tax: tax,
+     total: total
+    };
+    }
+
+    let receipt = generateReceipt(19.41);
+
+    // Log formatted results
+    console.log("Subtotal:", formatUSD(receipt.subtotal));
+    console.log("Tax Rate:", formatPct(receipt.taxRate));
+    console.log("Tax Owed:", formatUSD(receipt.tax));
+    console.log("Total Amount:", formatUSD(receipt.total));
 
 
     </script>
 </body>
 </html>
+
+
+

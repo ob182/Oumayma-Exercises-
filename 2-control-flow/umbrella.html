@@ -70,20 +70,71 @@
 
         console.log("---------------------")
         console.log("PART 1...")
+       // PART 1
+        // Model the situation with booleans
+        let isRaining = true;
+        let ownsUmbrella = false;
 
+        console.log("Is it raining?", isRaining);
+        console.log("Owns umbrella?", ownsUmbrella);
+
+        // If-else logic
+        if (!isRaining) {
+        console.log("Skies are clear");
+        } else {
+        if (ownsUmbrella) {
+        console.log("Bring your umbrella");
+        } else {
+        console.log("Buy an umbrella");
+        }
+        }
 
 
 
 
         console.log("---------------------")
         console.log("PART 2...")
+        // PART 2
+        // Function to return advice (does not log inside)
+        function advise(isRaining, ownsUmbrella) {
+        if (!isRaining) {
+        return "Skies are clear";
+        } else if (ownsUmbrella) {
+        return "Bring your umbrella";
+        } else {
+        return "Buy an umbrella";
+        }
+        }
 
+        // Test the function with all combinations
+        console.log(advise(false, false)); // "Skies are clear"
+        console.log(advise(false, true));  // "Skies are clear"
+        console.log(advise(true, true));   // "Bring your umbrella"
+        console.log(advise(true, false));  // "Buy an umbrella"
 
 
 
 
         console.log("---------------------")
         console.log("PART 3...")
+        // PART 3
+        // Wait until page is loaded
+        window.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("advise").addEventListener("click", function () {
+
+        // Get checkbox values
+        let isRaining = document.getElementById("switch-raining").checked;
+        let ownsUmbrella = document.getElementById("switch-umbrella").checked;
+
+        // Use advise() function from Part 2
+        let message = advise(isRaining, ownsUmbrella);
+
+        // Display the result
+        document.getElementById("display-message").textContent = message;
+        });
+        });
+
+
 
 
 
@@ -92,3 +143,4 @@
     </script>
 </body>
 </html>
+
